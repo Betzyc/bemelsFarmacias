@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<h1
+			class="text-secundary border border-info border-top-0 border-left-0 border-right-0"
+			th:text="${titulo}"></h1>
+			<a href="/productos/listar-productos" class="btn btn-info mb-0">Regresar a Medicamentos</a>
+	</div>
+	<div class="container">
+		<div class="card bg-dark text-white">
+
+			<div class="card-body">
+				<form th:action="@{/productos/nuevo-producto}" th:object="${producto}"
+					method="post" enctype="multipart/form-data">
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Código de Barras</label>
+						<div class="col-sm-6" >
+							<input type="text" th:field="*{codigobarras}"
+								class="form-control" required placeholder="Código de Barras"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Laboratorio</label> 
+						<div class="col-sm-6">
+						<select th:field="*{laboratorioId}"
+							class="form-control">
+							<option th:value="0">Elija un Laboratorio</option>
+							<option th:each="laboratorio: ${laboratorios}" th:value="${laboratorio.id}"
+								th:text="${laboratorio.nombre}"></option>
+						</select>
+						</div> 
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Nombre del
+							Medicamento</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{nombre}" class="form-control" 
+							required placeholder="Nombre Medicamento"/>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Precio Costo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{costo}" class="form-control" 
+							required placeholder="Precio Costo"/>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Precio de Venta</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{precio}" class="form-control" 
+							required placeholder="Precio Venta"/>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Stock Máximo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{maximo}" class="form-control" 
+							required placeholder="Stock Máximo"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Stock Mínimo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{minimo}" class="form-control" 
+							required placeholder="Stock Mínimo"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="file" class="col-sm-2 col-form-label">Foto</label>
+						<div class="col-sm-6">
+							<input type="file" name="file" class="form-control" />
+						</div>
+					</div>
+
+					<input type="hidden" th:field="*{id}" />
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<input type="submit" value="Guardar" class="btn btn-info" />
+						</div>
+					</div>
+
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" 
+					    	
+					    th:href="@{/activos/nuevo-activo}"
+						class="btn btn-outline-info btn-xs">Agregar Activo</a>
+					
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/activos/listar-activos/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a>
+						
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!activos.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Sucursal</td>							
+							<td>Cantidad</td>
+							<td>Nombre del Activo</td>
+							<td>Costo Unitario</td>
+							<td>Detalles</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="activo: ${activos}"
+							th:style="${activo.nombre == null} ? 'background-color: red'">
+							<td th:text="${activo.id}"></td>
+							<td th:text="${hmsucursales.get(activo.sucursal.getId())}"></td>
+							<td th:text="${activo.cantidad}"></td>
+							<td th:text="${activo.nombre}"></td>
+							<td th:text="${activo.unitario}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/activos/detalle-activo/} + ${activo.id}" th:text="Detalles"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/activos/editar-activo/} + ${activo.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/activos/eliminar-activo/} + ${activo.id}"
+								onclick="return confirm('Desea eliminar el Activo?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

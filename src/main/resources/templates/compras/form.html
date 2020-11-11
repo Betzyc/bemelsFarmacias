@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+					<a class="btn btn-primary"
+						th:href="@{'/proveedores/detalle-proveedor/' + ${compra.proveedor.id}}"
+						th:text="'&laquo; volver'"></a>
+				</h4>
+
+				<form th:action="@{/compras/form/}" th:object="${compra}"
+					method="post">
+
+					<div class="form-group row">
+						<label for="proveedor" class="col-sm-2 col-form-label"
+							th:text="'Proveedor'"></label>
+						<div class="col-sm-6">
+							<input name="proveedor"
+								th:value="${compra.proveedor.nombre}"
+								class="form-control" disabled='disabled' />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="descripcion" class="col-sm-2 col-form-label"
+							th:text="'Descripción'"></label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{descripcion}" class="form-control" th:errorclass="'form-control is-invalid'" />
+							<div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Sucursal</label> 
+						<div class="col-sm-6">
+						<select th:field="*{sucursalId}"
+							class="form-control">
+							<option th:value="0">Elija una Sucursal</option>
+							<option th:each="sucursal: ${sucursales}" th:value="${sucursal.id}"
+								th:text="${sucursal.nombre}"></option>
+						</select>
+						</div> 
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Forma de Pago</label> 
+						<div class="col-sm-6">
+						<select th:field="*{formapagoId}"
+							class="form-control">
+							<option th:value="0">Elija una forma de Pago</option>
+							<option th:each="formapago: ${formaspago}" th:value="${formapago.id}"
+								th:text="${formapago.nombre}"></option>
+						</select>
+						</div> 
+					</div>
+					<div class="form-group row">
+						<label for="buscar_producto" class="col-sm-2 col-form-label"
+							th:text="'Buscar producto'"></label>
+						<div class="col-sm-6">
+							<input type="text" name="buscar_producto" id="buscar_producto"
+								class="form-control" />
+						</div>
+					</div>
+
+					<table th:replace="compras/plantilla-items :: itemsCompra"></table>
+
+					<table id="cargarItemProductos"
+						class="table table-sm table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Precio</th>
+								<th>Cantidad</th>
+								<th>Total</th>
+								<th>Eliminar</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<h5>Total <span class="badge badge-secondary" id="gran_total">0</span></h5>
+
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<input type="submit" th:value="${titulo}"
+								class="btn btn-primary" />
+						</div>
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+	<script th:replace="compras/js/autocomplete-productos :: javascript"></script>
+
+</body>
+</html>

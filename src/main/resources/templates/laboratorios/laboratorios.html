@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/laboratorios/nuevo-laboratorio}"
+						class="btn btn-outline-info btn-xs">Agregar Laboratorio</a>
+						
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/laboratorios/listar-laboratorios/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a>
+					
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!laboratorios.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td>Detalles</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="laboratorio: ${laboratorios}"
+							th:style="${laboratorio.nombre == null} ? 'background-color: red'">
+							<td th:text="${laboratorio.id}"></td>
+							<td th:text="${laboratorio.nombre}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/laboratorios/detalle-laboratorio/} + ${laboratorio.id}" th:text="Detalles"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/laboratorios/editar-laboratorio/} + ${laboratorio.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/laboratorios/eliminar-laboratorio/} + ${laboratorio.id}"
+								onclick="return confirm('Desea eliminar el Laboratorio?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

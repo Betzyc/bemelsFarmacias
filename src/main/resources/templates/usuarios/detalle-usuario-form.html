@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a class="btn btn-info"
+						th:href="@{'/ventas/form/' + ${usuario.id}}"
+						th:text="'Nuevo Pedido'"></a>
+				</h4>
+
+				<div th:if="${#lists.isEmpty(usuario.ventas)}"
+					class="alert alert-info my-4"
+					th:text="'No hay pedidos asignadoss para el Cliente ' + ${usuario.nombre} + ' ' + ${usuario.apellido}"></div>
+
+				<table th:if="${not #lists.isEmpty(usuario.ventas)}"
+					class="table table-bordered table-striped my-4">
+					<thead class="thead-dark">
+						<tr>
+							<th>No Pedido</th>
+							<th>Descripción</th>
+							<th>Fecha</th>
+							<th>Total</th>
+							<th>Medicamentos </th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Accion</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="venta: ${usuario.ventas}">
+							<td th:text="${venta.id}"></td>
+							<td th:text="${venta.descripcion}"></td>
+							<td th:text="${venta.createAt}"></td>
+							<td th:text="${venta.total}"></td>
+							<td><a class="btn btn-info btn-sm" th:href="@{'/ventas/ver/' + ${venta.id}}" th:text="'Listado'"></a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-sm" th:href="@{'/ventas/eliminar/' + ${venta.id}}" th:text="'Eliminar'"
+							 onclick="return confirm('¿Esta seguro que desea eliminar el Pedido?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

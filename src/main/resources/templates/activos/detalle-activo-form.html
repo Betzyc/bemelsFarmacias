@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" style="background: #1F2D41; color: white" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<img th:if="${activo.foto != null}"
+					class="img-thumbnail rounded float-left" style="max-width: 25%;"
+					th:src="@{'/uploads/' + ${activo.foto}}" th:alt="${activo.foto}" />
+
+				<ul class="list-group">
+					<li class="list-group-item" th:text="${activo.sucursalId}"></li>
+					<li class="list-group-item" th:text="${activo.cantidad}"></li>
+					<li class="list-group-item" th:text="${activo.nombre}"></li>
+					<li class="list-group-item" th:text="${activo.unitario}"></li>
+				</ul>
+
+			</div>
+		</div>
+		
+		<a class="btn btn-danger btn-xs float-right" th:href="@{'/activos/detalle-activo/' + ${activo.id}(format=pdf)}" style="margin: 20px">Generar PDF</a>
+		<a class="btn btn-success btn-xs float-right" th:href="@{'/activos/detalle-activo/' + ${activo.id}(format=xlsx)}" style="margin: 20px">Generar EXCEL</a>
+		<br></br>
+	</div>
+	
+	
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

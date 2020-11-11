@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<h1
+			class="text-secundary border border-info border-top-0 border-left-0 border-right-0"
+			th:text="${titulo}"></h1>
+		<a href="/activos/listar-activos" class="btn btn-info mb-0">Regresar a
+			Activos</a>
+	</div>
+	<div class="container">
+		<div class="card bg-dark text-white">
+
+			<div class="card-body">
+				<form th:action="@{/activos/nuevo-activo}" th:object="${activo}"
+					method="post" enctype="multipart/form-data">
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Sucursal</label>
+						<div class="col-sm-6">
+							<select th:field="*{sucursalId}" class="form-control">
+								<option th:value="0">Elija una Sucursal</option>
+								<option th:each="sucursal: ${sucursales}"
+									th:value="${sucursal.id}" th:text="${sucursal.nombre}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Cantidad</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{cantidad}" class="form-control" 
+							required placeholder="Cantidad Activo"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Nombre del Activo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{nombre}" class="form-control" 
+							required placeholder="Nombre Activo"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Costo Unitario</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{unitario}" class="form-control" 
+							required placeholder="Costo Unitario"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="file" class="col-sm-2 col-form-label">Foto</label>
+						<div class="col-sm-6">
+							<input type="file" name="file" class="form-control" />
+						</div>
+					</div>
+
+					<input type="hidden" th:field="*{id}" />
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<input type="submit" value="Guardar" class="btn btn-info" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

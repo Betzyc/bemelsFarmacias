@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/empleados/nuevo-empleado}"
+						class="btn btn-outline-info btn-xs">Agregar Empleado</a>
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/empleados/listar-empleados/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a>
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!empleados.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td>Apellido</td>
+							<td>DPI</td>
+							<td>Telefono</td>
+							<td>Fecha Nacimiento</td>
+							<td>Sueldo</td>
+							<td>Sucursal</td>
+							<td>Detalles</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="empleado: ${empleados}"
+							th:style="${empleado.dpi == null} ? 'background-color: red'">
+							<td th:text="${empleado.id}"></td>
+							<td th:text="${empleado.nombre}"></td>
+							<td th:text="${empleado.apellido}"></td>
+							<td th:text="${empleado.dpi}"></td>
+							<td th:text="${empleado.telefono}"
+								th:style="${empleado.telefono == null} ? 'background-color: red'"></td>
+							<td th:text="${empleado.fechaNacimiento}"></td>
+							<td th:text="${empleado.sueldo}"></td>
+							<td th:text="${hmsucursales.get(empleado.sucursalId)}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/empleados/detalle-empleado/} + ${empleado.id}" th:text="Detalles"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/empleados/editar-empleado/} + ${empleado.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/empleados/eliminar-empleado/} + ${empleado.id}"
+								onclick="return confirm('Desea eliminar el Empleado?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

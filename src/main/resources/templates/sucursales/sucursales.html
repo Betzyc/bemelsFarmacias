@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/sucursales/nueva-sucursal}"
+						class="btn btn-outline-info btn-xs">Agregar Sucursal</a>
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/sucursales/listar-sucursales/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a>
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!sucursales.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td>Departamento</td>
+							<td>Direccion</td>
+							<td>Telefono</td>
+							<td>Email</td>
+							<td>Detalles</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="sucursal: ${sucursales}"
+							th:style="${sucursal.direccion == null} ? 'background-color: red'">
+							<td th:text="${sucursal.id}"></td>
+							<td th:text="${sucursal.nombre}"></td>
+							<td th:text="${hmdepartamentos.get(sucursal.departamento.getId())}"></td>
+							<td th:text="${sucursal.direccion}"></td>
+							<td th:text="${sucursal.telefono}"
+								th:style="${sucursal.telefono == null} ? 'background-color: red'"></td>
+							<td th:text="${sucursal.email}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/sucursales/detalle-sucursal/} + ${sucursal.id}" th:text="Detalles"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/sucursales/editar-sucursal/} + ${sucursal.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/sucursales/eliminar-sucursal/} + ${sucursal.id}"
+								onclick="return confirm('Desea eliminar el Sucursal?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

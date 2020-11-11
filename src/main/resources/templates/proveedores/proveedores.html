@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/proveedores/nuevo-proveedor}"
+						class="btn btn-outline-info btn-xs">Agregar Proveedor</a>
+					
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/proveedores/listar-proveedores/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a>	
+						
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!proveedores.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td>Nit</td>
+							<td>Departamento</td>
+							<td>Direccion</td>
+							<td>Telefono</td>
+							<td>Email</td>
+							<td>Compras</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="proveedor: ${proveedores}"
+							th:style="${proveedor.direccion == null} ? 'background-color: red'">
+							<td th:text="${proveedor.id}"></td>
+							<td th:text="${proveedor.nombre}"></td>
+							<td th:text="${proveedor.nit}"></td>
+							<td th:text="${hmdepartamentos.get(proveedor.departamento.getId())}"></td>
+							<td th:text="${proveedor.direccion}"></td>
+							<td th:text="${proveedor.telefono}"
+								th:style="${proveedor.telefono == null} ? 'background-color: red'"></td>
+							<td th:text="${proveedor.email}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/proveedores/detalle-proveedor/} + ${proveedor.id}" th:text="Compras"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/proveedores/editar-proveedor/} + ${proveedor.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/proveedores/eliminar-proveedor/} + ${proveedor.id}"
+								onclick="return confirm('Desea eliminar el Proveedor?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

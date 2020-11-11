@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!usuarios.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Nombre</td>
+							<td>Apellido</td>
+							<td>Departamento</td>
+							<td>Telefono</td>
+							<td>UserName</td>
+							<td>Ventas</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario: ${usuarios}"
+							th:style="${usuario.direccion == null} ? 'background-color: red'">
+							<td th:text="${usuario.id}"></td>
+							<td th:text="${usuario.nombre}"></td>
+							<td th:text="${usuario.apellido}"></td>
+							<td th:text="${hmdepartamentos.get(usuario.departamento.getId())}"></td>
+							<td th:text="${usuario.telefono}"
+								th:style="${usuario.telefono == null} ? 'background-color: red'"></td>
+							<td th:text="${usuario.username}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/usuarios/detalle-usuario/} + ${usuario.id}" th:text="Ventas"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/usuarios/editar-usuario/} + ${usuario.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/usuarios/eliminar-usuario/} + ${usuario.id}"
+								onclick="return confirm('Desea eliminar el Usuario?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

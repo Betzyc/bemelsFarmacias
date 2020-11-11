@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<h1
+			class="text-secundary border border-info border-top-0 border-left-0 border-right-0"
+			th:text="${titulo}"></h1>
+			<a href="/empleados/listar-empleados" class="btn btn-info mb-0">Regresar a Empleados</a>
+	</div>
+    <div class="container">
+		<div class="card bg-dark text-white">
+			
+			<div class="card-body">
+				<form th:action="@{/empleados/nuevo-empleado}" th:object="${empleado}"
+					method="post" enctype="multipart/form-data">
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Nombres</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{nombre}" class="form-control"
+								required placeholder="Nombres Empleado" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Apellidos</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{apellido}" class="form-control" 
+								required placeholder="Apellidos Empleado"/>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">DPI</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{dpi}" class="form-control" 
+							required placeholder="DPI Empleado"/>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Teléfono</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{telefono}" class="form-control" 
+							required placeholder="Teléfono Empleado"/>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{fechaNacimiento}"
+								required placeholder="DD-MM-YYYY" class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Sueldo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{sueldo}" class="form-control" 
+							required placeholder="Sueldo Empleado"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Sucursal</label> 
+						<div class="col-sm-6">
+						<select th:field="*{sucursalId}"
+							class="form-control">
+							<option th:value="0">Elija una Sucursal</option>
+							<option th:each="sucursal: ${sucursales}" th:value="${sucursal.id}"
+								th:text="${sucursal.nombre}"></option>
+						</select>
+						</div> 
+					</div>
+					
+					<div class="form-group row">
+						<label for="file" class="col-sm-2 col-form-label">Foto</label>
+						<div class="col-sm-6">
+							<input type="file" name="file" class="form-control" />
+						</div>
+					</div>
+					
+					<input type="hidden" th:field="*{id}" />
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<input type="submit" value="Guardar" class="btn btn-info" />
+						</div>
+					</div>
+
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

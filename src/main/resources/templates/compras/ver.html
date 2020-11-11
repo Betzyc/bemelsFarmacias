@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<div class="card bg-light">
+			<div class="card-header" th:text="'Compra No. '+${compra.id}+' - Fecha: '+${compra.createAt}+   ' - Notas: '+${compra.descripcion}"></div>
+			<div class="card-body">
+				<ul class="list-group my-2">
+					<li class="list-group-item list-group-item-primary"
+						th:text="'Proveedor: '+${compra.proveedor.getNombre()}+', Email: '+${compra.proveedor.email}"></li>
+				</ul>
+				<div class="alert alert-info my-4"
+					th:if="${#lists.isEmpty(compra.items)}"
+					th:text="'No hay l�neas para la compra' + ${compra.descripcion}"></div>
+
+				<table th:if="${not #lists.isEmpty(compra.items)}"
+					class="table table-striped table-hover table-bordered my-3">
+					<thead>
+						<tr>
+							<th>Cantidad</th>
+							<th>Medicamento</th>
+							<th align="right">Precio Unitario</th>
+							<th align="right">Sub Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="linea: ${compra.items}">
+							<td th:text="${linea.cantidad}"></td>
+							<td th:text="${linea.producto.nombre}"></td>
+							<td th:text="${linea.producto.precio}" align="right"></td>
+							<td th:text="${linea.calcularImporte()}" align="right"></td>
+						</tr>
+					</tbody>
+
+				</table>
+
+				<h5 class="float-right">
+					Total: <span th:text="${compra.total}"
+						class="badge badge-secondary"></span>
+				</h5>
+				<a th:href="@{'/proveedores/detalle-proveedor/'+${compra.proveedor.id}}"
+					class="btn btn-info">&laquo; Regresar</a>
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+		<div class="card">
+			<div class="card-header" th:text="${titulo}"></div>
+			<div class="card-body">
+
+				<h4 class="card-tittle">
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/productos/nuevo-producto}"
+						class="btn btn-outline-info btn-xs">Agregar Medicamento</a>
+					<!-- 			
+					<a class="btn btn-danger btn-xs float-right" th:href="@{/medicamentos/listar-medicamentos/(format=pdf)}" style="margin: 15px">
+					Generar PDF
+					</a> -->
+				
+				</h4>
+				<nav th:replace="paginator-nav :: paginator"></nav>
+				<table class="table table-striped " th:if="${!productos.isEmpty()}">
+					<thead class="bg-dark text-white text-center">
+						<tr>
+							<td>Id</td>
+							<td>Codigo de Barras</td>
+							<td>Laboratorio</td>							
+							<td>Nombre del Medicamento</td>
+							<td>Precio Costo</td>
+							<td>Precio Venta</td>
+							<td>Stock Maximo</td>
+							<td>Stock Minimo</td>
+							<td>Detalles</td>
+							<td>Editar</td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="producto: ${productos}"
+							th:style="${producto.nombre == null} ? 'background-color: red'">
+							<td th:text="${producto.id}"></td>
+							<td th:text="${producto.codigobarras}"></td>
+							<td th:text="${hmlaboratorios.get(producto.laboratorioId)}"></td>
+							<td th:text="${producto.nombre}"></td>
+							<td th:text="${producto.costo}"></td>
+							<td th:text="${producto.precio}"></td>
+							<td th:text="${producto.maximo}"></td>
+							<td th:text="${producto.minimo}"></td>
+							<td class="text-center"><a
+								class="btn btn-outline-info btn-xs"
+								th:href="@{/productos/detalle-producto/} + ${producto.id}" th:text="Detalles"></a></td>
+							<td class="text-center"><a
+								class="btn btn-outline-success btn-xs"
+								th:href="@{/productos/editar-producto/} + ${producto.id}">Editar</a></td>
+							<td class="text-center" ><a
+								class="btn btn-outline-danger btn-xs"
+								th:href="@{/productos/eliminar-producto/} + ${producto.id}"
+								onclick="return confirm('Desea eliminar el Producto?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
