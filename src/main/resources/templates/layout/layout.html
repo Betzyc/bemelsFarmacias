@@ -51,11 +51,7 @@ crossorigin="anonymous"></script>
 						th:href="@{/activos/listar-activos}">
 						<i class="fas fa-laptop-medical"></i> Activos</a>
 					</li>
-					<li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-						<a style="color: #1F2D41" class="nav-link" href="#about"
-						th:href="@{/departamentos/listar-departamentos}">
-						<i class="fas fa-globe"></i> Departamentos</a>
-					</li>
+					
 					<li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 						<a style="color: #1F2D41" class="nav-link" href="#about"
 						th:href="@{/usuarios/listar-usuarios}">
@@ -133,8 +129,7 @@ crossorigin="anonymous"></script>
 		</p>
 		<p></p>
 		<p align="center">
-			&copy; 2020 Bemel's S.A | Desarrollo Web - UMG | Autores: Mélany,
-			Betzy, José y Wilber <br></br> <a href="#" style="color: #00CFD5">Términos
+			&copy; 2021 Bemel's S.A | Desarrollo Web - UMG | Autores:Bemel's company <br></br> <a href="#" style="color: #00CFD5">Términos
 				y Condiciones</a> &middot; <a href="#" style="color: #00CFD5">Política
 				de Privacidad</a>
 		</p>
